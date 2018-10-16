@@ -9,20 +9,20 @@ class Entity:
 	children = set()
 	# position
 	pos = [0, 0] # x, y
-	vel = [0, 0] # heading, speed
+	heading = 0
+	speed = 0
 	
-	def __init__(self, pos, vel):
-		self.pos = pos;
-		self.vel = vel;
+	def __init__(self, pos, heading, speed):
+		self.pos = pos
+		self.heading = heading
+		self.speed = speed
 		
 	def keyInput(self, event, pressed):
 		pass
 	
 	def tick(self):
-		heading = self.vel[0]
-		speed = self.vel[1]
-		self.pos[0] += speed * math.cos(heading)
-		self.pos[1] += speed * math.sin(heading)
+		self.pos[0] += self.speed * math.cos(self.heading)
+		self.pos[1] += self.speed * math.sin(self.heading)
 		
 	def render(self, screen):
 		pass
@@ -47,7 +47,7 @@ class Player(Ship):
 		mousepos = pygame.mouse.get_pos()
 		dx = self.pos[0] - mousepos[0]
 		dy = self.pos[1] - mousepos[1]
-		self.vel[0] = math.atan2(dy, dx) + math.pi
+		self.heading = math.atan2(dy, dx) + math.pi
 		
 		# parent calculations (physics etc)
 		Entity.tick(self)
@@ -63,9 +63,9 @@ class Projectile(Entity):
 	
 	def __init__(self, parent, speed):
 		pos = parent.pos.copy()
-		vel = parent.vel.copy()
-		vel[1] += speed
-		Entity.__init__(self, pos, vel)
+		speed += parent.speed
+		heading = parent.heading
+		Entity.__init__(self, pos, heading, speed)
 		
 	def render(self, screen):
 		x = int(self.pos[0])
