@@ -19,26 +19,26 @@ clock = pygame.time.Clock()
 
 # game loop
 while not done:
+	# TPS/FPS rate
+	clock.tick(60)
 	# quitting test loop
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			done = True
 	# game logic
 	for item in objects:
-		item.tick()
 		for child in item.children:
 			child.tick()
+		item.tick()
 	# clearing screen
 	screen.fill(WHITE)
 	# drawing code!
 	for item in objects:
-		item.render(screen)
 		for child in item.children:
 			child.render(screen)
+		item.render(screen)
 	# displaying drawing
 	pygame.display.flip()
-	# delaying
-	clock.tick(60)
 
 # stop game
 pygame.quit()

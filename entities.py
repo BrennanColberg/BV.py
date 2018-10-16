@@ -4,7 +4,9 @@ from colors import *
 
 class Entity:
 	
+	# things connected to entity that die with it (projectiles, etc)
 	children = set()
+	# position
 	x = 0
 	y = 0
 	
@@ -26,7 +28,7 @@ class Ship(Entity):
 		self.x += 1
 		self.y += 2
 		if random.random() < 0.1:
-			self.fire(random.randint(1, 5), random.uniform(-0.1, 0.1))
+			self.fire(random.uniform(1, 5), random.uniform(-0.1, 0.1))
 		
 	def render(self, screen):
 		pygame.draw.rect(screen, GREEN, [int(self.x), int(self.y), 40, 40], 0)
