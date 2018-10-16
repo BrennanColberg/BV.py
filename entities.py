@@ -1,7 +1,10 @@
 import pygame
 import math
 import random
+# other project sources
+import renderer
 from colors import * 
+
 
 class Entity:
 	
@@ -24,9 +27,19 @@ class Entity:
 		self.pos[0] += self.speed * math.cos(self.heading)
 		self.pos[1] += self.speed * math.sin(self.heading)
 		
-	def render(self, screen):
+	def render(self):
 		pass
 	
+class Blob(Entity):
+	
+	size = None
+	
+	def __init__(self, pos, size):
+		Entity.__init__(self, pos, 0, 0)
+		self.size = size
+		
+	def render(self):
+		pygame.draw.circle(renderer.screen, GREEN, renderer.screenCoords(self.pos), 10)
 
 class Ship(Entity):
 		
@@ -44,7 +57,7 @@ class Player(Ship):
 	def tick(self):
 		
 		# points velocity towards mouse position
-		mousepos = pygame.mouse.get_pos()
+		mousepos = renderer.worldCoords(pygame.mouse.get_pos())
 		dx = self.pos[0] - mousepos[0]
 		dy = self.pos[1] - mousepos[1]
 		self.heading = math.atan2(dy, dx) + math.pi
@@ -52,11 +65,10 @@ class Player(Ship):
 		# parent calculations (physics etc)
 		Entity.tick(self)
 	
-	def render(self, screen):
-		x = int(self.pos[0])
-		y = int(self.pos[1])
-		rect = pygame.Rect(x, y, 20, 20)
-		pygame.draw.rect(screen, RED, rect)
+	def render(self):
+		pos = renderer.screenCoords(self.pos)
+		rect = pygame.Rect(pos, [20, 20])
+		pygame.draw.rect(renderer.screen, RED, rect)
 		
 
 class Projectile(Entity):
@@ -67,7 +79,5 @@ class Projectile(Entity):
 		heading = parent.heading
 		Entity.__init__(self, pos, heading, speed)
 		
-	def render(self, screen):
-		x = int(self.pos[0])
-		y = int(self.pos[1])
-		pygame.draw.circle(screen, RED, (x, y), 5, 1)
+	def render(self):
+		pygame.draw.circle(renderer.screen, BLUE, renderer.screenCoords(self.pos), 5, 1)
