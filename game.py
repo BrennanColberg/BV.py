@@ -1,37 +1,40 @@
+# module imports
 import pygame
 import math
+# other files in project
+from ship import *
+from colors import *
 
-pygame.init()
+# game variables
+objects = set()
+objects.add(Ship(10, 10))
 
+# starting game
 done = False
-RED = (255, 0, 0)
-WHITE = (255, 255, 255)
-
+pygame.init()
 size = (700, 500)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Game!")
 clock = pygame.time.Clock()
 
-x, y = 10, 10
-
+# game loop
 while not done:
 	# quitting test loop
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			done = True
-	
 	# game logic
-	x += 2
-	y += 1
-	
+	for item in objects:
+		item.tick()
 	# clearing screen
 	screen.fill(WHITE)
 	# drawing code!
-	pygame.draw.rect(screen, RED, [x, y, 30, 40])
+	for item in objects:
+		item.render(screen)
 	# displaying drawing
 	pygame.display.flip()
-	
-	# delaying!
+	# delaying
 	clock.tick(60)
 
+# stop game
 pygame.quit()
