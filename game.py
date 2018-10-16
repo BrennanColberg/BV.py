@@ -2,7 +2,7 @@
 import pygame
 import math
 # other files in project
-from ship import *
+from entities import *
 from colors import *
 
 # game variables
@@ -26,11 +26,15 @@ while not done:
 	# game logic
 	for item in objects:
 		item.tick()
+		for child in item.children:
+			child.tick()
 	# clearing screen
 	screen.fill(WHITE)
 	# drawing code!
 	for item in objects:
 		item.render(screen)
+		for child in item.children:
+			child.render(screen)
 	# displaying drawing
 	pygame.display.flip()
 	# delaying
