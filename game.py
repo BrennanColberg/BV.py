@@ -7,7 +7,7 @@ from colors import *
 
 # game variables
 objects = set()
-objects.add(Player([0, 0], [1, 0.5]))
+objects.add(Player([100, 100], [0, 3]))
 
 # starting game
 done = False

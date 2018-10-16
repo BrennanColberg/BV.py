@@ -40,6 +40,17 @@ class Player(Ship):
 		if pressed:
 			if event.key == pygame.K_SPACE:
 				self.fire(4)
+				
+	def tick(self):
+		
+		# points velocity towards mouse position
+		mousepos = pygame.mouse.get_pos()
+		dx = self.pos[0] - mousepos[0]
+		dy = self.pos[1] - mousepos[1]
+		self.vel[0] = math.atan2(dy, dx) + math.pi
+		
+		# parent calculations (physics etc)
+		Entity.tick(self)
 	
 	def render(self, screen):
 		x = int(self.pos[0])
@@ -53,7 +64,7 @@ class Projectile(Entity):
 	def __init__(self, parent, speed):
 		pos = parent.pos.copy()
 		vel = parent.vel.copy()
-		vel[1] = speed
+		vel[1] += speed
 		Entity.__init__(self, pos, vel)
 		
 	def render(self, screen):
