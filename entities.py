@@ -26,10 +26,10 @@ class Ship(Entity):
 		self.x += 1
 		self.y += 2
 		if random.random() < 0.1:
-			self.fire(random.randint(1, 5), 0)
+			self.fire(random.randint(1, 5), random.uniform(-0.1, 0.1))
 		
 	def render(self, screen):
-		pygame.draw.rect(screen, GREEN, [self.x, self.y, 40, 40], 0)
+		pygame.draw.rect(screen, GREEN, [int(self.x), int(self.y), 40, 40], 0)
 		
 	def fire(self, vx, vy):
 		self.children.add(Projectile(self, vx, vy))
@@ -49,4 +49,4 @@ class Projectile(Entity):
 		self.y += self.vy
 		
 	def render(self, screen):
-		pygame.draw.circle(screen, RED, [self.x, self.y], 5, 1)
+		pygame.draw.circle(screen, RED, [int(self.x), int(self.y)], 5, 1)
