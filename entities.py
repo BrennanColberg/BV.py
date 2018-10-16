@@ -1,6 +1,7 @@
 import pygame
 import math
 import random
+from shapely.geometry import Polygon
 # other project sources
 import renderer
 from colors import * 
@@ -10,6 +11,7 @@ class Entity:
 	
 	# things connected to entity that die with it (projectiles, etc)
 	children = set()
+	shape = None
 	# position
 	pos = [0, 0] # x, y
 	heading = 0
@@ -69,6 +71,11 @@ class Player(Ship):
 		pos = renderer.screenCoords(self.pos)
 		rect = pygame.Rect(pos, [20, 20])
 		pygame.draw.rect(renderer.screen, RED, rect)
+		renderer.draw(self.pos, self.heading, Polygon([
+			(1, 0),
+			(-1, 1),
+			(-1, -1)
+		]), 50, GREEN, 4)
 		
 
 class Projectile(Entity):
